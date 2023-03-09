@@ -2,6 +2,7 @@ var channelHandlers = {}
 
 function addSimMessageHandler(channel, handler) {
     channelHandlers[channel] = handler
+    console.log("TEST -> added sim handler")
 }
 
 function makeCodeRun(options) {
@@ -30,6 +31,7 @@ function makeCodeRun(options) {
 
     // helpers
     function fetchCode() {
+        console.log("TEST -> fetching code")
         sendReq(options.js, function (c, status) {
             if (status != 200) return
             code = c
@@ -53,6 +55,7 @@ function makeCodeRun(options) {
     }
 
     function startSim() {
+        console.log("TEST -> Started sim")
         if (!code || !isReady || started) return
         setState("run")
         started = true
@@ -78,6 +81,7 @@ function makeCodeRun(options) {
     }
 
     function stopSim() {
+        console.log("TEST -> Stopping sim")
         setState("stopped")
         postMessage({
             type: "stop",
@@ -89,6 +93,7 @@ function makeCodeRun(options) {
         "message",
         function (ev) {
             var d = ev.data
+            console.log("TEST -> recieved: "+d.type)
             // console.debug(ev.origin, d)
             if (ev.origin == simOrigin) {
                 if (d.type == "ready") {
@@ -174,6 +179,7 @@ function makeCodeRun(options) {
     }
 
     function postMessage(msg) {
+        console.log("TEST -> Posted msg: "+msg)
         const frame = document.getElementById("simframe")
         if (meta && frame) frame.contentWindow.postMessage(msg, meta.simUrl)
     }
